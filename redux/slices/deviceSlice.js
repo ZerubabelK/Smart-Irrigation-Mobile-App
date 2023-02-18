@@ -4,6 +4,8 @@ const initialState = {
   isConnected: false,
   connectedDevice: {},
   wantToConnect: false,
+  isProcessing: false,
+  isBluetoothOn: false,
 };
 const deviceSlice = createSlice({
   name: 'device',
@@ -29,6 +31,12 @@ const deviceSlice = createSlice({
     setWantToConnect: (state, {payload}) => {
       state.wantToConnect = payload;
     },
+    setIsProcessing: (state, {payload}) => {
+      state.isProcessing = payload;
+    },
+    setIsBluetoothOn: (state, {payload}) => {
+      state.isBluetoothOn = payload;
+    },
   },
 });
 export const {
@@ -38,5 +46,7 @@ export const {
   setDevices,
   setIsConnected,
   setWantToConnect,
+  setIsProcessing,
+  setIsBluetoothOn,
 } = deviceSlice.actions;
 export default deviceSlice.reducer;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, PermissionsAndroid, ScrollView} from 'react-native';
+import {View, PermissionsAndroid, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,6 +11,7 @@ import Profile from './screens/Profile';
 import ConnectBluetooth from './components/ConnectBluetooth';
 import {Buffer} from 'buffer';
 import {useSelector} from 'react-redux';
+import BluetoothSerialModules from './lib/BluetoothSerialModules';
 global.Buffer = Buffer;
 const Tab = createBottomTabNavigator();
 const requestAllPermissions = async () => {
@@ -30,20 +31,12 @@ const requestAllPermissions = async () => {
 };
 requestAllPermissions();
 function RootNavigator() {
+  const {checkConnection} = BluetoothSerialModules();
   const {userReducer, deviceReducer} = useSelector(state => state);
   const {isLogged} = userReducer;
   const {wantToConnect} = deviceReducer;
 
-  // console.log(user1);
-  // const [isLogged, setIsLogged] = useState(false);
-  // const [isConnected, setIsConnected] = useState(false);
-  // const [user, setUser] = useState({});
-  // const handleAuth = (ev, validity, user) => {
-  //   ev.persist();
-  //   setIsLogged(validity);
-  //   setUser({username: user.username, password: user.password});
-  //   console.log(user);
-  // };
+  checkConnection();
   return !isLogged ? (
     userReducer.user != null ? (
       <View>

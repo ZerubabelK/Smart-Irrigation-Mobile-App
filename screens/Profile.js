@@ -1,20 +1,15 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  Pressable,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
+import BluetoothSerialModules from '../lib/BluetoothSerialModules';
 import {logout} from '../redux/slices/userSlice';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import TopBar from '../components/TopBar';
 import {useDispatch, useSelector} from 'react-redux';
+import {disconnect} from '../redux/slices/deviceSlice';
 const Profile = ({setIsConnected}) => {
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.userReducer);
   const {firstName, lastName} = user;
+  const {disconnectDevice} = BluetoothSerialModules();
   return (
     <View className="relative h-full py-2">
       <TopBar setIsConnected={setIsConnected} />
@@ -32,7 +27,9 @@ const Profile = ({setIsConnected}) => {
             </Text>
             <TouchableOpacity
               onPress={() => {
+                disconnectDevice();
                 dispatch(logout());
+                dispatch(disconnect());
               }}
               className="bg-sky-500 px-3 py-2 rounded-xl">
               <Text className="text-white">Log out</Text>
